@@ -1,0 +1,72 @@
+  {% load static %}
+  <!doctype html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>{% block title %}Tech Lab{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?{% now " U" %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <!--LOGO-->
+        <div class="logo"><a href="/">Tech Lab</aa>
+        </div>
+        <!--SERVICES-->
+        <ul class="nav-links">
+          <li class="nav-link nav-linkh">
+            <a class="shoping-cart-base" href="{% url "basket:basket_summary" %}">Shoping Cart
+              <span>
+                {% with total_qty=basket|length %}
+                <a class="basket-qty-summary-id-navbar">
+                  <a id="">
+                  {% if total_qty > 0 %}
+                  <i class="fa badge fa-lg" value="{{ total_qty }}">&#xf07a;</i>
+                  {% else %}
+                  <i class="fa badge fa-lg" value=0>&#xf07a;</i>
+                  {% endif %}
+                </a>
+                </a>
+                {% endwith %}
+              </span>
+            </a>
+          </li>
+          <li class="nav-link nav-linkh menu">
+            <a href="/">Menu</a>
+            <ul class="drop-down">
+              {% for c in categories %}
+              <li>
+                <a href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-link nav-linkh">
+            <a href="{% url 'account:dashboard' %}">Account</a>
+        </li>
+          <li class="nav-link nav-linkh">
+            <a href="{% url 'store:about' %}">About Us</a>
+        </li>
+          {% if user.is_authenticated %}
+          <li class="nav-link" id="navbar-logout">
+            <a href="{% url "account:logout" %}">Logout</a>
+          {% else %}
+          <li class="nav-link" id="navbar-login">
+            <a href="{% url "account:logout" %}">Login</a>
+          {% endif %}
+          </li>
+        </ul>
+      </div>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+
+  </html>

@@ -1,0 +1,156 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Basket{% endblock %}
+
+{% block content %}
+      <!--SIDEMENU-->
+      <div class="sidemenu-container">
+        <div class="sidemenu">
+          <li class="sidemenu-links">
+            {% for c in categories %}
+          <li class="sidemenu-link">
+            <a href="{{ c.get_absolute_url }}">{{ c.name|title }}
+              <span class="material-icons dropdown-icon">
+                arrow_drop_down
+              </span>
+            </a>
+            <ul class="product-list">
+              {% for product in c.product.all %}
+              <div class="sidemenu-container-submenu">
+                <li class="submenu-product"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></li>
+              </div>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+          </ul>
+          </li>
+        </div>
+      </div>
+<div class="item-container">
+    <div class="item-basket">
+        <!--SHOPING CART-->
+        <div class="cart-col-basket">
+            <div class="cart-row-basket">
+                <div class="cart-title-basket">
+                    <h4>Shopping Cart</h4>
+                </div>
+                <div class="cart-noitems-basket">
+                    {% with total_qty=basket|length %}
+                    <a id="basket-qty-summary-id">
+                        {% if total_qty > 0 %}
+                            {{ total_qty }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </a>
+                    {% endwith %}
+                    items</div>
+            </div>
+            <div class="cart-product-container-basket">
+                {% for item in basket %}
+                {% with product=item.product %}
+                <div class="delete-button">
+                <hr />
+                <div data-index="{{ product.id }}" class="cart-product-basket product-item">
+                    <img class="cart-img-basket" src="{{ product.image.url }}">
+                    <div class="cart-detail-product-basket">
+                        <div class="cart-product-category-basket">{{ product.category }}</div>
+                        <div class="cart-product-name-basket">{{ product.title }}</div>
+                    </div>
+                    <div class="cart-qty-container-basket">
+                        <a href="#">-</a><a href="#" class="cart-qty-basket">{{ item.qty }}</a><a href="#">+</a>
+                    </div>
+                    <div class="cart-product-price-basket">&euro; {{item.price}}</div>
+                    <button type="button" class="delete-button" id="cart-delete-basket" data-index="{{ product.id }}"><span>&#10005;</span></button>
+                </div>
+            </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            <hr />
+            <div class="cart-back-basket"><a href="/">&leftarrow;<span class="cart-back-text-basket">Back to
+                        shop</span></a></div>
+        </div>
+        <!--SUMMARY-->
+        <div class="summary-col-basket">
+            <div class="summary-title-container-basket">
+                <h5 class="summary-title-basket">Summary</h5>
+                <hr class="hr2" />
+            </div>
+            <div class="summary-row-basket">
+                <div class="summary-qty-basket">ITEMS
+                    {% with total_qty=basket|length %}
+                    <a class="basket-qty-summary">
+                        {% if total_qty > 0 %}
+                            {{ total_qty }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </a>
+                    {% endwith %}</div>
+                <div class="summary-sum-price-basket">&euro;<a class="subtotal-price">
+                    {% if basket.get_total_price > 0 %}
+                        {{ basket.get_total_price}}
+                    {% else %}
+                        0,00
+                    {% endif %}
+                </a></div>
+            </div>
+            <div class="summary-delivery-container-basket">
+                <form>
+                    <p class="summary-shipping-basket">SHIPPING</p>
+                    <select id="summary-qty-basket">
+                        <option class="summary-delivery-basket">Standard-Delivery- &euro;5.00</option>
+                    </select>
+                </form>
+            </div>
+            <hr class="hr2" />
+            <div class="summary-bottom-row-basket">
+                <div class="summary-total-price-basket">TOTAL PRICE</div>
+                <div class="summary-final-price-basket">&euro;
+                    {% with total_price=basket.get_total_price_shipping %}
+                    <a class="total-price">
+                    {% if basket.get_total_price > 0 %}
+                        {{ total_price }}
+                    {% else %}
+                        0,00
+                    {% endif %}
+                    </a>
+                    {% endwith %}
+                </div>
+            </div>
+            <a  href="{% url "payment:basket" %}"><button type="button" class="summary-checkout-btn-basket">CHECKOUT</button></a>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).on('click', '.delete-button', function (e) {
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+        type: 'POST',
+        url: '{% url "basket:basket_delete" %}',
+        data: {
+            productid: $(this).data('index'),
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post',
+        },
+        success: function (json) {
+            $('.product-item[data-index="' + prodid +'"]').remove();
+            document.querySelector('.basket-qty-summary').innerHTML = json.qty;
+            document.querySelector('.subtotal-price').innerHTML = json.basketsubtotal;
+            document.querySelector('.total-price').innerHTML = json.baskettotal;
+
+            document.getElementById('basket-qty-summary-id').innerHTML = json.qty;
+            document.getElementById('basket-qty-summary-id-navbar').innerHTML = json.qty;
+        },
+        error: function (xhr, errmsg, err) {}
+    });
+})
+</script>    
+
+{% endblock %}

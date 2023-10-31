@@ -1,0 +1,120 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+      <!--SIDEMENU-->
+      <div class="sidemenu-container">
+        <div class="sidemenu">
+          <li class="sidemenu-links">
+            {% for c in categories %}
+          <li class="sidemenu-link">
+            <a href="{{ c.get_absolute_url }}">{{ c.name|title }}
+              <span class="material-icons dropdown-icon">
+                arrow_drop_down
+              </span>
+            </a>
+            <ul class="product-list">
+              {% for product in c.product.all %}
+              <div class="sidemenu-container-submenu">
+                <li class="submenu-product"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></li>
+              </div>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+          </ul>
+          </li>
+        </div>
+      </div>
+<div class="item-container">
+    <div class="item">
+            <img class="item-img" src="{{ product.image.url }}">
+            <div class="item-box-title">
+                <h1 class="item-title">{{ product.title }}</h1>
+            </div>
+            <div class="item-box-description">
+                <p class="description-title">Description:</p>
+                <a class="item-description">{{ product.description }}</a>
+            </div>
+            <div class="add-to-cart-detail">
+                {% if product.in_stock %}
+                <button type="button" id="add-button" value="{{product.id}}" class="add-to-cart-button-detail">
+                    <a>
+                        <span class="material-icons cart-icon-detail">
+                            add_shopping_cart
+                        </span>
+                        Add to cart
+                    </a>
+                </button>
+                {% else %}
+                <button type="button" class="add-to-cart-button-detail not-available-button" style="background-color: gray;" disabled>
+                    <a>
+                        <span class="material-icons cart-icon-detail">
+                            add_shopping_cart
+                        </span>
+                        Not Available
+                    </a>
+                </button>
+                {% endif %}
+            </div>
+            <div class="item-box-price">
+                <a class="item-price">€{{ product.price }}</a>
+            </div>
+            <div class="item-in_stock-detail-container">
+                <p class="item-in_stock-box">
+                    <div class="item-in_stock-box {% if product.in_stock %}available-icon{% else %}not-available-icon{% endif %}">
+                        {% if product.in_stock %}
+                        <span class="item-in_stock-place material-icons">local_shipping</span>
+                        <a class="">
+                            Shipping in <a class="{% if product.in_stock %}available-icon-green{% endif %}">24 hours</a>
+                        </a>
+                        {% else %}
+                        <span class="item-in_stock-place material-icons">schedule</span>
+                        <a class="">
+                            Temporarily <a class="{% if product.in_stock %}available-green{% else %}not-available-icon-red{% endif %}">unavailable</a>
+                        </a>
+                        {% endif %}
+                    </div>
+                </p>
+            </div>
+            <div class="qty-detail">
+                <label for="select">Qty</label>
+                <select id="select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="item-box-specification">
+                <p class="specification-title">Specification:</p>
+                <ul class="specification-bullet-list">
+                    {% for spec in specifications %}
+                        <li>{{ spec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+    </div>
+</div>
+<script>
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_add" %}',
+            data: {
+                productid: $('#add-button').val(),
+                productqty: $('#select option:selected').text(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById('basket-qty-summary').innerHTML = json.qty;
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    })
+</script>    
+{% endblock %}

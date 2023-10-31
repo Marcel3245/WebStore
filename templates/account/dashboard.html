@@ -1,0 +1,126 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" />
+    <script src="https://kit.fontawesome.com/39fdb69b47.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container-info">
+        <div class="leftbox">
+            <nav>
+                <a onclick= "tabs(0)" class="tab active">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+                <a onclick= "tabs(1)" class="tab">
+                    <i class="fa-regular fa-credit-card"></i>
+                </a>
+             
+                <a onclick= "tabs(2)" class="tab">
+                    <i class="fa-solid fa-list-check"></i>
+                </a>
+                <a onclick= "tabs(3)" class="tab">
+                    <i class="fa-solid fa-gears"></i>
+                </a>
+                </nav>
+        </div>
+    
+     <div class="rightbox">
+        <div class="profile tabShow">
+            <h1>Personal Info</h1>
+            <form>
+            {% csrf_token %}
+            <h2>Username</h2>
+            <input type="text" class="input" 
+            Value="{{ user.user_name }}">
+            <label for="name"></label><br>
+
+            <h2>Birthdate</h2>
+            <input type="date" class="input" 
+            Value="">    
+            <label for="birthdate"></label><br>
+
+            <h2>Gender optional</h2>
+            <input type="text" class="input" 
+            Value="Male">    <!-- Change type-->
+            <label for="gender"></label><br>
+
+            <h2>Email</h2>
+            <input type="text" class="input" 
+            Value="{{ user.email }}">    <!-- Change type-->
+            <label for="gender"></label><br>
+
+            <h2>Password</h2>
+            <input type="password" class="input" 
+            Value="{{user.password}}"> 
+            <label for="password"></label><br>
+
+            <a href="{% url "account:edit_details" %}">Change Details</a>
+        </form>
+        </div>
+        <div class="Billing tabShow">
+            <h1>Billing Info</h1>
+            <h2>Billing Address</h2>
+            <input type="text" class="input" 
+            Value="">
+            <label for="address"></label><br>
+
+            <h2>Country</h2>
+            <input type="text" class="input" 
+            Value="{{user.country}}">    <!-- Change type-->
+            <label for="country"></label><br>
+
+            <h2>Postalnr</h2>
+            <input type="test" class="input" 
+            Value="">    <!-- Change type-->
+            <label for="postnr"></label><br>
+
+            <h2>Billing date</h2>
+            <input type="text" class="input" 
+            Value="{{user.address}}">    <!-- Change type-->
+            <label for="billingdate"></label><br>
+
+            <a href="{% url "account:edit_details" %}">Change Details</a>
+        </div>
+        <div class="privacy tabShow">
+            <h1>Privacy Settings</h1>
+            <h2>Manage Email Noti.</h2>
+            <h2>View Terms of Use</h2>
+            <p> </p>
+            <a href="{% url "account:edit_details" %}">Change Details</a>
+        </div>
+        <div class="Settings tabShow">
+            <h1>Account Setting</h1>
+            <h2>Follow order</h2>
+            <h2>Referalls</h2>
+            <a href="{% url "account:edit_details" %}">Change Details</a>
+        </div>
+    </div>
+    
+
+
+
+    <script>
+        const tabBtn = 
+        document.querySelectorAll(".tab");
+        const tab = 
+        document.querySelectorAll(".tabShow");
+
+        function tabs(panelIndex) {
+            tab.forEach(function(node) {
+                node.style.display = "none"
+                });
+            tab[panelIndex].style.display = "block"
+        }
+        tabs(0);
+
+    </script>
+
+</body>
+{% endblock %}

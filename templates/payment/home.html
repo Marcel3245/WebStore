@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>order</title>
+    <link rel="stylesheet"
+    href="../css/order.css">
+</head>
+<body>
+    <div class="background">
+        <div class="loginfield">
+            <h1 id="title">
+                Your data
+            </h1>
+            <form> 
+                <div class="input-group">
+                    <div class="input-field" id="email">
+                        <input type="email" placeholder="Email">
+                    </div>
+                  <div class="input-field" id="firstNameField">
+                        <input type="text" placeholder="First Name">
+                    </div>
+                    <div class="input-field" id="lastNameField">
+                        <input type="text" placeholder="Last Name">
+                    </div>
+                    <div class="input-field" id="age">
+                        <input type="text" 
+                        onfocus="(this.type='date')"
+                        onblur="(this.type='text')"
+                        placeholder="Date of birth">
+                    </div>
+                    <div class="input-field" id="adress">
+                        <input type="text" placeholder="Billing Adress">
+                    </div>
+                   
+                    <div class="input-field" id="postnr">
+                        <input type="text" placeholder="Postal Number">
+                    </div>
+
+                    <div class="input-field" id="country">
+                        <input type="text" placeholder="country">
+                    </div>
+                </div>
+                <div class="botton-field">
+                    <button type="reset" id="signupBtn">Cancel</button>
+                    <button type="button" id="signinBtn" class="disable" >Order</button>
+                </div>
+                
+            </form>
+        </div>
+    
+    </div>
+    <script>
+
+        let signupBtn= document.getElementById("signupBtn")
+        let signinBtn= document.getElementById("signinBtn")
+        let email= document.getElementById("email")
+       
+
+        let title= document.getElementById("title")
+        
+        signinBtn.onclick = function(){
+            title.innerHTML = "Thanks for your order";
+            signupBtn.classList.add("disable");
+            signinBtn.classList.remove("disable");
+        }
+        signupBtn.onclick = function(){
+            email.style.maxHeight = "60"
+            title.innerHTML = "Your data";
+            signupBtn.classList.remove("disable");
+            signinBtn.classList.add("disable");
+        }
+</script>
+
+<style>
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+.background{
+    width: 100%;
+    padding: 100px;
+    right: 100px;
+    height: 100vh;
+    border-radius: 50px;
+    background-position: center;
+   }
+.loginfield{
+    margin-top: 50px ;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 50px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(211, 211, 211, 0.376);
+    padding:50px 60px 70px ;
+    text-align: center;
+    border: 1px solid grey;
+}
+.loginfield h1 {
+    font-size: 50px;
+    margin-bottom: 60px;
+    color: #373430;
+    position: relative;
+}
+.loginfield h1::after {
+    content: '';
+    width: 250px;
+    height: 4px;
+    border-radius: 3px;
+    background: #373430;
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .input-field{
+    background:white;
+    margin: 15px 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    max-height: 65px;
+    transition: max-height 0.5s;
+    overflow: hidden;
+    border: 1px solid grey;
+
+  }
+  input{
+    width: 100%;
+    background: transparent;
+    color: black;
+    border: 0;
+    outline: 0;
+    padding: 18px 15px;
+}
+.botton-field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.botton-field button{
+    flex-basis: 48%;
+    background: #373430;
+    color: #fff;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: background 1s;
+}
+.botton-field button.disable{
+    background: #8b8a8a;
+    color: #373430;
+}
+
+.background{
+    position: relative;
+    top: 0;
+    left:0;
+}
+
+
+
+
+/*header*/
+a {
+    text-decoration: none;
+    color: currentColor;
+  }
+  li, .nav-links{
+    list-style: none;
+  }
+  
+  .container {
+    top: 0;
+    width: 100%;
+    left: 0%;
+    /* background-color: #f3f3f3; */
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    position: absolute;
+    border-radius: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 13vh;
+    background-color: white;
+    box-shadow: 1px 0px 9px rgb(0, 0, 0.2);
+    z-index: 100;
+  }
+  
+  .nav-links {
+    display: flex;
+    justify-content: space-around;
+    width: fit-content;
+    gap: 2rem;
+  }
+  
+  .nav-link, .drop-down li {
+    list-style: none;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  /* LOGO */
+  .logo{
+    font-size: 32px;
+    color: black;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  
+</style>
+</body>
+</html>
