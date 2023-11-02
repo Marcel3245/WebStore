@@ -121,8 +121,15 @@
                     {% endwith %}
                 </div>
             </div>
-            <a  href="{% url "payment:basket" %}"><button type="button" class="summary-checkout-btn-basket">CHECKOUT</button></a>
-            
+            {% with total_qty=basket|length %}
+            {% if total_qty == 0 %}
+                <button type="button" class="summary-checkout-btn-basket" disabled>CHECKOUT</button>
+            {% else %}
+                <a href="{% url 'payment:basket' %}">
+                    <button type="button" class="summary-checkout-btn-basket">CHECKOUT</button>
+                </a>
+            {% endif %}
+            {% endwith %}
         </div>
     </div>
 </div>

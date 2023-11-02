@@ -96,6 +96,9 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% if user.is_staff == True %}
+                <a href="{% url 'store:delete_event' slug=product.slug %}"><button id="delete-item-button-detail">Delete product</button></a>
+            {% endif %}
     </div>
 </div>
 <script>
