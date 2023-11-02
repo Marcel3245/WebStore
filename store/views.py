@@ -1,6 +1,5 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Category, Product
-
 
 #User request inforamtion
 def product_all(request):
@@ -22,3 +21,11 @@ def category_list(request, category_slug):
 
 def about(request):
     return render(request, 'store/about.html')
+
+def delete_event(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    product.delete()
+    return redirect('store:product_all')
+
+def admin_view(request):
+    return render(request, 'store/admin_view.html')
