@@ -3,14 +3,13 @@ from .models import Category, Product
 from .models import Product
 from django.http import HttpResponseRedirect 
 from .forms import ProductForm
-#pk id
 
 
 #product list
-def list_product(request):
+def list_product(request, slug):
+    product = get_object_or_404(Product, slug=slug)
     product_list = Product.objects.all
-    return render(request, 'store/product.html',
-    {'product_list': product_list})
+    return render(request, 'store/product.html', {'product_list': product_list})
 
 #adding and saving new product
 def add_product(request):
