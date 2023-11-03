@@ -1,5 +1,39 @@
 from django.shortcuts import get_object_or_404, render
 from .models import Category, Product
+from .models import Product
+from django.http import HttpResponseRedirect 
+from .forms import ProductForm
+#pk id
+
+
+#product list
+def list_product(request):
+    product_list = Product.objects.all
+    return render(request, 'store/product.html',
+    {'product_list': product_list})
+
+#adding and saving new product
+def add_product(request):
+    submitted = False
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_poduct?submitted=true')
+    else: 
+        form = ProductForm
+        if 'submitted' in request.GET:
+            submitted = True 
+
+    return render(request, 'store/add_product.html',{'form':form, 'submitted':submitted})
+
+
+
+def all_store(request):
+    store_list = Product.objects.all
+    return render(request, 'store/store_list.html',
+    {'store_list': store_list})
+
 
 
 #User request inforamtion

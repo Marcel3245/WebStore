@@ -21,17 +21,16 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
-#Data about a product
+#Data about a product (')
 class Product(models.Model):
     category                = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
-    created_by              = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='product_creator', on_delete=models.CASCADE)
-    title                   = models.CharField(max_length=255)
+    created_by              = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='product_creator', on_delete=models.CASCADE, blank=True)
+    title                   = models.CharField(max_length=255, blank=True)
     author                  = models.CharField(max_length=255, default='admin')
     description             = models.TextField(max_length=300, blank=True)
     specification           = models.TextField(blank=True)
-    image                   = models.ImageField(upload_to='images/', default='images/default.jpg') #Every product only one image!!
-    slug                    = models.SlugField(max_length=255)
+    image                   = models.ImageField(upload_to='images/', default='images/default.jpg', blank=True) #Every product only one image!!
+    slug                    = models.SlugField(max_length=255, blank=True)
     price                   = models.DecimalField(max_digits=5, decimal_places=2)
     in_stock                = models.BooleanField(default=True)
     is_active               = models.BooleanField(default=True)
