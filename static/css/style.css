@@ -83,6 +83,65 @@ li, .nav-links{
     font-weight: 700;
 }
 
+/* SEARCH_BAR */
+:root {
+    --rad: .7rem;
+    --dur: .3s;
+    --color-dark: #1b1a1a;
+    --color-light: #fff;
+    --color-brand: #9b9fa1;
+    --font-fam: 'Lato', sans-serif;
+    --height: 1.5rem;
+    --btn-width: 3rem;
+    --bez: cubic-bezier(0, 0, 0.43, 1.49);
+}
+#searchbar-form {
+    display: flex;
+}
+#searchbar-input, #searchbar-button {
+    height: var(--height);
+    font-family: var(--font-fam);
+    border: 1px solid var(#9b9fa1); 
+    color: var(--color-dark);
+    font-size: 1.2rem;
+}
+#searchbar-input[type="search"] {
+    flex: 1;
+    background: var(--color-light);
+    padding: 0 0.7rem;
+    border-radius: var(--rad);
+    appearance: none;
+    transition: all var(--dur) var(--bez);
+    z-index: 98;
+    position: relative;
+}
+#searchbar-button {
+    display: none; 
+    position: absolute;
+    width: var(--btn-width);
+    font-weight: bold;
+    background: var(--color-brand);
+    border-radius: 0 var(--rad) var(--rad) 0;
+    margin-left: 260px;
+}
+#searchbar-input:not(:placeholder-shown) {
+    border-radius: var(--rad) 0 0 var(--rad);
+    width: calc(100% - var(--btn-width));
+    + button {
+        display: block;
+    }
+}
+#searchbar-label {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+
 /* DROPDOWN MENU */
 .drop-down {
     position: absolute;

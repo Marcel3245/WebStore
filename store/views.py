@@ -1,6 +1,10 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Category, Product
 
+#Wiliam's
+from django.http import HttpResponseRedirect 
+from .forms import ProductForm
+
 #User request inforamtion
 def product_all(request):
     #Query from sql, products in database 
@@ -29,3 +33,36 @@ def delete_event(request, slug):
 
 def admin_view(request):
     return render(request, 'store/admin_view.html')
+
+def product_search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        searched_product = Product.objects.filter(title=searched) 
+        return render(request, 'store/search_product.html', {'searched':searched, 'searched_product':searched_product})
+    else:
+        return render(request, 'store/search_product.html', {})
+
+
+#Wiliam's
+#adding and saving new product
+def add_product(request):
+    submitted = False
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_poduct?submitted=true')
+    else: 
+        form = ProductForm
+        if 'submitted' in request.GET:
+            submitted = True 
+
+    return render(request, 'store/add_product.html',{'form':form, 'submitted':submitted})
+def all_store(request):
+    store_list = Product.objects.all
+    return render(request, 'store/store_list.html', {'store_list': store_list})
+def list_product(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    product_list = Product.objects.all
+    return render(request, 'store/product.html', {'product_list': product_list}) 
+

@@ -1,0 +1,115 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<!--SIDEMENU-->
+<div class="sidemenu-container">
+    <div class="sidemenu">
+        <li class="sidemenu-links">
+            {% for c in categories %}
+        <li class="sidemenu-link">
+            <a href="{{ c.get_absolute_url }}">{{ c.name|title }}
+                <span class="material-icons dropdown-icon">
+                    arrow_drop_down
+                </span>
+            </a>
+            <ul class="product-list">
+                {% for product in c.product.all %}
+                <div class="sidemenu-container-submenu">
+                    <li class="submenu-product"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></li>
+                </div>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+        </ul>
+        </li>
+    </div>
+</div>
+
+{% if searched %}
+
+<div class="product-container">
+    {% for product in searched_product %}
+    <a href="{{ product.get_absolute_url }}">
+        <div class="product" style="cursor: pointer;">
+            <div class="product-box">
+                <img class="product-img" src="{{ product.image.url }}">
+                <p class="box-title">
+                    <a class="product-title" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                </p>
+                <div class="item-in_stock-home-container">
+                    <p class="item-in_stock-box">
+                    <div
+                        class="item-in_stock-box {% if product.in_stock %}available-icon{% else %}not-available-icon{% endif %}">
+                        {% if product.in_stock %}
+                        <span class="item-in_stock-place material-icons">local_shipping</span>
+                        <a class="">
+                            Shipping in <a class="{% if product.in_stock %}available-icon-green{% endif %}">24 hours</a>
+                        </a>
+                        {% else %}
+                        <span class="item-in_stock-place material-icons">schedule</span>
+                        <a class="">
+                            Temporarily <a
+                                class="{% if product.in_stock %}available-green{% else %}not-available-icon-red{% endif %}">unavailable</a>
+                        </a>
+                        {% endif %}
+                    </div>
+                    </p>
+                </div>
+                <p class="box-price">
+                    <a class="product-price">€{{ product.price }}</a>
+                </p>
+                <div class="description-box">
+                    <small class="product-description">{{ product.description }}</small>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="product-container">
+    {% for product in products %}
+    <a href="{{ product.get_absolute_url }}">
+        <div class="product" style="cursor: pointer;">
+            <div class="product-box">
+                <img class="product-img" src="{{ product.image.url }}">
+                <p class="box-title">
+                    <a class="product-title" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                </p>
+                <div class="item-in_stock-home-container">
+                    <p class="item-in_stock-box">
+                    <div
+                        class="item-in_stock-box {% if product.in_stock %}available-icon{% else %}not-available-icon{% endif %}">
+                        {% if product.in_stock %}
+                        <span class="item-in_stock-place material-icons">local_shipping</span>
+                        <a class="">
+                            Shipping in <a class="{% if product.in_stock %}available-icon-green{% endif %}">24 hours</a>
+                        </a>
+                        {% else %}
+                        <span class="item-in_stock-place material-icons">schedule</span>
+                        <a class="">
+                            Temporarily <a
+                                class="{% if product.in_stock %}available-green{% else %}not-available-icon-red{% endif %}">unavailable</a>
+                        </a>
+                        {% endif %}
+                    </div>
+                    </p>
+                </div>
+                <p class="box-price">
+                    <a class="product-price">€{{ product.price }}</a>
+                </p>
+                <div class="description-box">
+                    <small class="product-description">{{ product.description }}</small>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
