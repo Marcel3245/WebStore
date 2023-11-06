@@ -20,6 +20,13 @@
         <!--LOGO-->
         <div class="logo"><a href="/">Tech Lab</aa>
         </div>
+        <!--SEARCH_BAR-->
+        <form id="searchbar-form" role="search" method="POST" action="{% url 'store:product_search' %}">
+          {% csrf_token %}
+          <label id="searchbar-label" for="searchbar">Search for stuff</label>
+          <input id="searchbar-input" name="searched" type="search" placeholder="Search..." autofocus required />
+          <button id="searchbar-button" type="button">Go</button>    
+        </form>
         <!--SERVICES-->
         <ul class="nav-links">
           <li class="nav-link nav-linkh">
