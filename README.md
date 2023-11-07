@@ -4,7 +4,8 @@
 
 
 <h>Basket view</h>
-<img width="959" alt="Basket-view" src="https://github.com/Marcel3245/WebStore/assets/63426816/858ab93c-bb25-4057-a68d-25308a386b95">
+<img width="959" alt="image" src="https://github.com/Marcel3245/WebStore/assets/63426816/1f711e4e-299e-42f5-ae3a-2d25f8d1cb5f">
+
 
 
 <h>About us</h>
